@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:final_project_business_ui/sign_in_page.dart';
 import 'package:final_project_business_ui/sign_up_page.dart';
+import 'package:final_project_business_ui/list_of_orders_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SignUpScreen(),
+      home: OrdersScreen(),
     );
   }
 }
