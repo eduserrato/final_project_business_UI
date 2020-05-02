@@ -139,3 +139,16 @@ Future productPost(String name, String imgUrl, String recipe, String bar, String
  debugPrint(body);
 }
 
+Future productDelete(String id) async{
+  
+  // Here is the url that will be used to delelete the product 
+  String url = 'http://10.0.2.2:3000/products/$id';
+
+  // make DELETE request
+  http.Response response = await http.delete(url);
+
+  // Check the status code of the response
+  int statusCode = response.statusCode;
+  debugPrint(response.body);
+}
+
