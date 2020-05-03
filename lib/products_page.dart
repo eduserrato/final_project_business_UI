@@ -2,9 +2,9 @@ import 'package:final_project_business_ui/add_product_page.dart';
 
 import './model/drink_item.dart';
 import 'package:http/http.dart' as http;
-import 'list_of_orders_page.dart';
+import 'list_of_ordersFixed_page.dart';
 import 'package:flutter/material.dart';
-import 'package:final_project_business_ui/model/order_item.dart';
+import 'package:final_project_business_ui/model/orderFixed_item.dart';
 import 'package:final_project_business_ui/main.dart';
 
 //This will brake if you delete products because it wont find the information of the order.
@@ -81,14 +81,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           Text("Orders"),
                         ]),
                     onPressed: () async {
-                      List<OrderItem> orderItemsList = await orderItems();
+                      List<OrderFixedItem> orderFixedItemsList = await orderFixedItems();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  OrdersScreen(orderItemsList)));
+                                  OrdersFixedScreen(orderFixedItemsList)));
                       print(
-                          'Login Button Pressed'); ////HERE IS THE NAVEGATION TO OTHER PAGES
+                          'Orders Button Pressed'); ////HERE IS THE NAVEGATION TO OTHER PAGES
                     },
                   ),
                 ],
