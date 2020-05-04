@@ -1,8 +1,9 @@
+import 'package:final_project_business_ui/model/orderFixed_item.dart';
 import 'package:final_project_business_ui/model/order_item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'main.dart';
-import 'package:final_project_business_ui/list_of_orders_page.dart';
+import 'package:final_project_business_ui/list_of_ordersFixed_page.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -121,9 +122,9 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation:
             5.0, //here is to make it look higher than the others like it was above
         onPressed: () async{ 
-        List<OrderItem>orderItemsList = await orderItems();
+        List<OrderFixedItem>orderFixedItemsList = await orderFixedItems();
          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => OrdersScreen(orderItemsList)));
+              MaterialPageRoute(builder: (context) => OrdersFixedScreen(orderFixedItemsList)));
               print('Login Button Pressed');       ////HERE IS THE NAVEGATION TO OTHER PAGES
         },
         padding: EdgeInsets.all(15.0),

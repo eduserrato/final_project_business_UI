@@ -74,7 +74,6 @@ class _OrdersFixedScreenState extends State<OrdersFixedScreen> {
 }
 
 class OrderContainer extends StatelessWidget {
-
   OrderContainer({
     @required this.orderFixedItem,
   });
@@ -84,10 +83,11 @@ class OrderContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Oitems(
-      
       orderId: orderFixedItem.order_id,
       orderGroup: orderFixedItem.order_Group,
       orderTotalPrice: orderFixedItem.order_Total_Price,
+      color1: orderFixedItem.color1,
+      color2: orderFixedItem.color2,
       ready: orderFixedItem.ready,
       delivered: orderFixedItem.delivered,
     );
@@ -95,11 +95,12 @@ class OrderContainer extends StatelessWidget {
 }
 
 class Oitems extends StatelessWidget {
-
   Oitems({
-  @required this.orderId,
-  @required this.orderGroup,
-  @required this.orderTotalPrice,
+    @required this.orderId,
+    @required this.orderGroup,
+    @required this.orderTotalPrice,
+    @required this.color1,
+    @required this.color2,
     this.ready,
     this.delivered,
   });
@@ -107,12 +108,29 @@ class Oitems extends StatelessWidget {
   String orderId;
   String orderGroup;
   double orderTotalPrice;
+  String color1;
+  String color2;
   bool ready;
   bool delivered;
 
-  
   @override
   Widget build(BuildContext context) {
+ String orderName= '';
+    List<String>sepOrder = orderGroup.split(' - ');
+    for(int x = 0; x < sepOrder.length; x++)
+    {
+      orderName += '${sepOrder[x]} \n';
+    }
+
+    color1 = "Color($color1)";
+    color2 = "Color($color2)";
+
+    String valueColor1 = color1.split('(0x')[1].split(')')[0];
+    int _color1 = int.parse(valueColor1, radix: 16);
+    String valueColor2 = color2.split('(0x')[1].split(')')[0];
+    int _color2 = int.parse(valueColor2, radix: 16);
+
+
     return Column(
       children: <Widget>[
         
@@ -122,7 +140,7 @@ class Oitems extends StatelessWidget {
              // decoration: myBoxDecoration() ,
               child:Column(
                 children: <Widget>[
-                Text("$orderGroup", style: TextStyle(
+                Text("$orderName", style: TextStyle(
                   fontSize: 20,
                 fontWeight: FontWeight.bold,
                 
@@ -136,24 +154,75 @@ class Oitems extends StatelessWidget {
                   fontWeight: FontWeight.bold
                 ),),
                 Padding(padding: EdgeInsets.fromLTRB(10, 5,10, 20)),
+                Padding(padding: EdgeInsets.all(5)),
+              Text(
+                "Delivery Authentication Colors:",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: 50,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        color: Color(_color1),
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                  ),
+                  Padding(padding: EdgeInsets.all(5)),
+                  Container(
+                    height: 50,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        color: Color(_color2),
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                  ),
+                ],
+              ),
                 Row( mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                 RaisedButton(
-                  onPressed:(){
-                    ready = !ready;
-                    print(ready);
-                  
-                  },
                   child: Text("Ready"),
+                                    color: ready ? Colors.green : Colors.red,
+
+                  onPressed: ()async{
+                    if(ready == true && delivered == true){
+
+                    }
+                    else{
+                      await changeReadyPatch(orderId, ready);
+                    }
+                    List<OrderFixedItem> orderFixedItemsList = await orderFixedItems();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  OrdersFixedScreen(orderFixedItemsList)));
+                      print('Orders Button Pressed');
+                  }
                 ),
                 Padding(padding: EdgeInsets.fromLTRB(10, 5, 10, 25)),
                 RaisedButton(
-                  onPressed:(){
-                    delivered = !delivered;
-                    print(delivered);
-                  
+                  child: Text('Delivered!'),
+                  color: delivered ? Colors.green : Colors.red,
+                  onPressed: ()async{
+                     if(ready == false){
+
+                    }
+                    else{
+                     await changeDeliveredPatch(orderId, delivered);
+                    }
+                  List<OrderFixedItem> orderFixedItemsList = await orderFixedItems();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  OrdersFixedScreen(orderFixedItemsList)));
+                      print('Orders Button Pressed');
                   },
-                  child: Text("Delivered!"),
+                 
                 ),
               ],)
                 ],

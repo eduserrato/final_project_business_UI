@@ -7,6 +7,8 @@ class OrderFixedItem{
   String order_Group;
   String order_id;
   double order_Total_Price;
+  String color1;
+  String color2;
   bool delivered;
   bool ready;
 
@@ -14,6 +16,8 @@ class OrderFixedItem{
     this.order_Group,
     this.order_id,
     this.order_Total_Price,
+    this.color1,
+    this.color2,
     this.delivered = false,
     this.ready = false,
   });
@@ -23,12 +27,13 @@ class OrderFixedItem{
       order_id: json['orderId'], 
       order_Group: json['orderGroup'], 
       order_Total_Price: json['orderTotalPrice'], 
+      color1: json['color1'],
+      color2: json['color2'],
       delivered: json['delivered'], 
       ready: json['ready'],
     );
   }
 }
-
 Future<List<OrderFixedItem>>orderFixedItems()async{
   List<OrderFixedItem>orderItemsList = [];
   Map data1;
@@ -50,4 +55,42 @@ Future<List<OrderFixedItem>>orderFixedItems()async{
     print("Couldn't acces database");
     return null;
   }
+}
+
+Future changeReadyPatch(String _id, bool ready) async {
+  // set up PATCH request arguments
+  String url = 'http://10.0.2.2:3000/ordersFixed/$_id';
+  Map<String, String> headers = {"Content-type": "application/json"};
+  String json;
+  if (ready == false){
+    json = '[	{"propName": "ready", "value": "true"} ]';
+  }
+  else{
+    json = '[ {"propName": "ready", "value": "false"} ]';
+  }
+  // make PATCH request
+  http.Response response = await http.patch(url, headers: headers, body: json);
+  // check the status code for the result
+  int statusCode = response.statusCode;
+  // only the title is updated
+  String body = response.body;
+}
+
+Future changeDeliveredPatch(String _id, bool delivered) async {
+  // set up PATCH request arguments
+  String url = 'http://10.0.2.2:3000/ordersFixed/$_id';
+  Map<String, String> headers = {"Content-type": "application/json"};
+  String json;
+  if (delivered == false){
+    json = '[{"propName": "delivered", "value": "true"}]';
+  }
+  else{
+    json = '[{"propName": "delivered", "value": "false"}]';
+  }
+  // make PATCH request
+  http.Response response = await http.patch(url, headers: headers, body: json);
+  // check the status code for the result
+  int statusCode = response.statusCode;
+  // only the title is updated
+  String body = response.body;
 }
