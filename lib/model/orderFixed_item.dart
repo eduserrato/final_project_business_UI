@@ -26,7 +26,7 @@ class OrderFixedItem{
     return OrderFixedItem(
       order_id: json['orderId'], 
       order_Group: json['orderGroup'], 
-      order_Total_Price: json['orderTotalPrice'], 
+      order_Total_Price: json['orderTotalPrice'].toDouble(), 
       color1: json['color1'],
       color2: json['color2'],
       delivered: json['delivered'], 
