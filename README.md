@@ -1,8 +1,8 @@
-# final_project_business_ui
+# Final Project Business UI
 
-A new Flutter project.
+This is the front end of for the Bussinesses, this is what they will see and how they will control the products displayed, and select when a drink was delivered.
 
-## Getting Started
+## How it was done:
 
 This project is a starting point for a Flutter application.
 
